@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login</title>
+<style>
+  body { font-family: Arial; background:#f0f4f8; display:flex; justify-content:center; align-items:center; height:100vh; }
+  .login-card { background:#fff; padding:30px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1); width:300px; }
+  .login-card h2 { text-align:center; margin-bottom:20px; }
+  .login-card input { width:100%; padding:10px; margin-bottom:15px; border-radius:5px; border:1px solid #ccc; }
+  .login-card button { width:100%; padding:10px; background:#1976d2; color:#fff; border:none; border-radius:5px; cursor:pointer; }
+  .login-card button:hover { background:#115293; }
+  .error { color:red; text-align:center; }
+</style>
+</head>
+<body>
+<div class="login-card">
+  <h2>Admin Login</h2>
+  <input type="text" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="login()">Login</button>
+  <p id="error" class="error"></p>
+</div>
+
+<script>
+async function login() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const error = document.getElementById("error");
+
+    try {
+        const res = await fetch("http://localhost:5000/api/admin/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+            localStorage.setItem("adminToken", data.token);
+            window.location.href = "admin-dashboard.html";
+        } else {
+            error.textContent = data.message;
+        }
+
+    } catch (err) {
+        error.textContent = "Server error";
+    }
+
+}
+</script>
+</body>
+</html>

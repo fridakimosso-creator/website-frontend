@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="header">
+    <h1>Admin Dashboard</h1>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+
+<div class="cards">
+    <div class="card">
+        <h2 id="totalUsers">0</h2>
+        <p>Total Users</p>
+    </div>
+    <div class="card">
+        <h2 id="totalReplies">0</h2>
+        <p>Total Replies Sent</p>
+    </div>
+</div>
+
+<input type="text" id="search" placeholder="Search by name or email...">
+
+<table id="userTable">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Message</th>
+            <th>Reply</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Users will populate here -->
+    </tbody>
+</table>
+
+<!-- Reply Modal -->
+<div id="replyModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Reply to Customer</h3>
+        <textarea id="replyText" rows="5" placeholder="Type your reply here..."></textarea>
+        <button id="sendReply">Send Reply</button>
+    </div>
+</div>
+<script src="scrip.js"></script>
+</body>
+</html>

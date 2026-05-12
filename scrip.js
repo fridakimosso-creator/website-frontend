@@ -71,7 +71,7 @@ function attachEvents() {
             const id = btn.dataset.id;
 
             if (confirm("Are you sure?")) {
-                const res = await fetch(`http://localhost:5000/api/admin/users/${id}`, {
+                const res = await fetch(`https://registration-backend-lpkd.onrender.com/api/admin/users/${id}`, {
                     method: "DELETE",
                     headers: { "Authorization": "Bearer " + token }
                 });

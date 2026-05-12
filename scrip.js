@@ -10,7 +10,7 @@ if (!token) {
 // =======================
 async function fetchUsers() {
     try {
-        const res = await fetch("http://localhost:5000/api/admin/users", {
+        const res = await fetch("https://registration-backend-lpkd.onrender.com/api/admin/users", {
             headers: { "Authorization": "Bearer " + token }
         });
 
@@ -103,7 +103,7 @@ document.querySelector(".close").onclick = () => {
 document.getElementById("sendReply").onclick = async () => {
     const reply = document.getElementById("replyText").value;
 
-    const res = await fetch(`http://localhost:5000/api/admin/users/${currentUserId}/reply`, {
+    const res = await fetch(`https://registration-backend-lpkd.onrender.com/api/admin/users/${currentUserId}/reply`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

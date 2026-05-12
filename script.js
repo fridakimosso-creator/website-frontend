@@ -274,7 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
     status.style.color = "#007bff";
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/register", {
+      const response = await fetch("https://registration-backend-lpkd.onrender.com/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

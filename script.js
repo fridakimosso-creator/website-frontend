@@ -1,77 +1,100 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   /* ===============================
-     NAVBAR TOGGLE + STICKY HEADER
+     ELEMENTS
   =============================== */
-
   const toggleButton = document.querySelector(".toggle-button");
   const navLinks = document.querySelector(".nav-links");
   const header = document.querySelector("header");
 
-  toggleButton?.addEventListener("click", () => {
-    navLinks.classList.toggle("active");
+  /* ===============================
+     MOBILE MENU TOGGLE
+  =============================== */
+  toggleButton?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    navLinks?.classList.toggle("active");
     toggleButton.classList.toggle("active");
   });
 
+  /* ===============================
+     STICKY HEADER
+  =============================== */
   window.addEventListener("scroll", () => {
     header?.classList.toggle("scrolled", window.scrollY > 50);
   });
 
-
   /* ===============================
-     DROPDOWN (FIXED)
+     DROPDOWN FIX (SAFE + NESTED READY)
   =============================== */
-
-  const dropdown = document.querySelector(".dropdown");
-  const toggle = document.querySelector(".dropdown-toggle");
-  
-  if (dropdown && toggle) {
+  document.querySelectorAll(".dropdown-toggle").forEach(toggle => {
     toggle.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
-  
-      // Toggle dropdown
+
+      const dropdown = toggle.closest(".dropdown");
+      if (!dropdown) return;
+
+      // close only siblings (same level)
+      const parent = dropdown.parentElement;
+      if (parent) {
+        parent.querySelectorAll(":scope > .dropdown").forEach(item => {
+          if (item !== dropdown) {
+            item.classList.remove("active");
+          }
+        });
+      }
+
       dropdown.classList.toggle("active");
     });
-  
-    // Close when clicking outside
-    document.addEventListener("click", (e) => {
-      if (!dropdown.contains(e.target)) {
-        dropdown.classList.remove("active");
-      }
-    });
-  }
+  });
 
   /* ===============================
-     SMOOTH SCROLL (FIXED)
+     CLOSE DROPDOWN ON OUTSIDE CLICK
   =============================== */
+  document.addEventListener("click", () => {
+    document.querySelectorAll(".dropdown").forEach(d => {
+      d.classList.remove("active");
+    });
+  });
 
+  /* ===============================
+     NAV LINK CLICK HANDLER (FIXED + CLEAN)
+  =============================== */
   document.querySelectorAll(".nav-links a").forEach(link => {
     link.addEventListener("click", (e) => {
 
       const href = link.getAttribute("href");
 
-      // Skip dropdown toggle
+      // ignore dropdown toggle clicks
       if (link.classList.contains("dropdown-toggle")) return;
 
-      // Only handle internal links (#section)
-      if (href && href.startsWith("#")) {
-        e.preventDefault();
+      // smooth scroll ONLY for internal links
+      if (href && href.startsWith("#") && href.length > 1) {
 
-        const target = document.querySelector(href);
-        if (!target) return;
+        const targetEl = document.querySelector(href);
 
-        window.scrollTo({
-          top: target.offsetTop - 70,
-          behavior: "smooth"
-        });
+        if (targetEl) {
+          e.preventDefault();
+
+          window.scrollTo({
+            top: targetEl.offsetTop - 70,
+            behavior: "smooth"
+          });
+        }
       }
 
+      // close mobile menu
       navLinks?.classList.remove("active");
+      toggleButton?.classList.remove("active");
+
+      // close dropdowns
+      document.querySelectorAll(".dropdown").forEach(d => {
+        d.classList.remove("active");
+      });
     });
   });
 
-
+});
   /* ===============================
      CAROUSEL
   =============================== */
@@ -298,4 +321,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-});
